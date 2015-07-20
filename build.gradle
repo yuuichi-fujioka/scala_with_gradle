@@ -1,0 +1,41 @@
+
+apply plugin: 'scala'
+apply plugin: 'distribution'
+apply plugin: 'eclipse'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.scala-lang:scala-library:2.11.1'
+    testCompile 'junit:junit:4.10'
+    testCompile 'org.scalatest:scalatest_2.11:2.2.5'
+    testRuntime 'org.pegdown:pegdown:1.1.0'
+}
+
+compileScala {
+
+}
+
+compileTestScala {
+
+}
+
+scaladoc {
+}
+
+test {
+    maxParallelForks = 10
+    testLogging {
+        events 'started', 'passed'
+    }
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'Hello'
+    }
+    archiveName "hello.jar"
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+}
